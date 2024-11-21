@@ -1,0 +1,48 @@
+  <!DOCTYPE html>
+  <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Cart</title>
+  </head>
+  <body>
+  <h1>Shopping Cart</h1>
+
+  <table border="1">
+    <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${cartItems}">
+      <td th:text="${item.product.name}"></td>
+      <td th:text="${item.quantity}"></td>
+      <td th:text="${item.product.price}"></td>
+      <td th:text="${item.quantity * item.product.price}"></td>
+      <td>
+        <form th:action="@{/cart/update/{id}(id=${item.product.id})}" method="post">
+          <input type="number" name="quantity" th:value="${item.quantity}" />
+          <button type="submit">Update</button>
+        </form>
+        <form th:action="@{/cart/remove/{id}(id=${item.product.id})}" method="post">
+          <button type="submit">Remove</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <form th:action="@{/cart/checkout}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="address">Address:</label>
+    <textarea id="address" name="address" required></textarea>
+    <br>
+    <button type="submit">Checkout</button>
+  </form>
+
+  </body>
+  </html>
